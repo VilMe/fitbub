@@ -10,6 +10,10 @@ div.navbar-header img {
     margin-right: 7px;
 }
 
+div.navbar {
+    background-color: orange;
+    color: black;
+}
 
 
 

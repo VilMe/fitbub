@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <form class="add-exercise" method="POST">
+        <h2 class="add-exercise-heading">Workin' it, log it here!</h2> 
+        <br>
+        <label for="exercise-name-field">Exercise</label>
+            <input type="text" 
+                   name="exercise-name" 
+                   placeholder="Exercise Please"
+                   required
+                   autofocus>
+        <label for="exercise-rep-numb">Number of Reps</label>
+            <input type="number"
+                   name="rep-numb"
+                   min="0"
+                   max="1000">
+        <label for="exercise-weight-field">Weight</label>
+            <input type="number"
+                   name="exercise-weight"
+                   min="0"
+                   max="10000"
+                   autofocus>
+        <button class="btn btn-lg btn-primary btn-block" 
+                type="submit">Log Exercise!</button>
+    </form>
+
+{% endblock %}
