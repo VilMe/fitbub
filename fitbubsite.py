@@ -17,7 +17,7 @@ app.secret_key = 'this-should-be-something-unguessable'
 
 app.jinja_env.undefined = jinja2.StrictUndefined
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
 	"""Return Home Page """
 	return render_template("add_exercise.html")
@@ -30,17 +30,7 @@ def add_exercise():
 	weight = request.form["weight"]
 	num_reps = request.form["reps"]
 	exercise_id = 1
-	# check_exercise = Exercise.query.filter_by(name = exercise_name).one_or_none()
-	# #need to make sure to filter WITH user_id ALSO.
-
-	# if check_exercise == None:
-	#     new_exercise = Exercise(user_id = user_id,
-	#                             name = exercise_name
-	#                             )
-	#     db.session.add(new_exercise)
-	#     db.session.commit()
-	#     # exercise = Exercise.query.filter_by(name = exercise_name).first()
-	# # print(exercise.exercise_id, user_id, weight, num_reps)
+	
 
 	new_entry = ExerciseEntry(user_id = user_id, 
 							  exercise_id = exercise_id,
