@@ -59,7 +59,7 @@ class Exercise(db.Model):
 	def __repr__(self):
 		"""show exercise information"""
 		return "<Exercise id={} user_id={} exercise_name={} muscle_group={}>".format(
-					self.exercise_id, self.user_id, self.exercise_name, self.muscle_group)
+					self.exercise_id, self.user_id, self.name, self.muscle_group)
 
 
 
@@ -99,12 +99,10 @@ class ExerciseEntry(db.Model):
 
 	#########
 	#helper functions
-
+from flask import Flask
 def init_app():
 	""" Flask app to connect to Flask-SQLAlchemy"""
-	from flask import Flask
-	app = Flask(__name__)
-
+	app=Flask(__name__)
 	connect_to_db(app)
 	print("Yo, connected to DeeBee!")
 
@@ -118,6 +116,7 @@ def connect_to_db(app):
 	db.init_app(app)
 
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
+	app=Flask(__name__)
 	init_app()
