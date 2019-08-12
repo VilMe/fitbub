@@ -36,7 +36,7 @@ def add_exercise():
 							  exercise_id = exercise_id,
 							  num_reps = num_reps,
 							  weight = weight)
-	print(new_entry)
+	
 	db.session.add(new_entry)
 	db.session.commit()
 	return "Exercise logged!", 200
@@ -44,4 +44,6 @@ def add_exercise():
 
 
 if __name__ == "__main__":
+
+	connect_to_db(app)
 	app.run(debug=True, port=3000, host='0.0.0.0')
