@@ -20,26 +20,44 @@ app.jinja_env.undefined = jinja2.StrictUndefined
 @app.route("/", methods=["GET", "POST"])
 def index():
 	"""Return Home Page """
-	return render_template("add_exercise.html")
+	if request.form:
+		add_exercise()
+		return redirect("/add_exercise")
+	else:
+		return render_template("add_exercise.html")
 
 @app.route("/add_exercise", methods=["GET", "POST"])
 def add_exercise():
-	"""Return add exercise from."""
-	user_id = 1
-	exercise_name = request.form["exercise_name"]
-	weight = request.form["weight"]
-	num_reps = request.form["reps"]
-	exercise_id = 1
-	
+	"""Return add exercise form and addition of exercises!"""
+	if request.form:
+		user_id = 1
+		exercise_name = request.form["exercise_name"]
+		weight = request.form["weight"]
+		num_reps = request.form["reps"]
+		
+		check_exercise = Exercise.query.filter_by(user_id = user_id,\
+												name = exercise_name).\
+												one_or_none()
+		if check_exercise == None:
+			new_exercise = Exercise(user_id = user_id,
+									name = exercise_name
+									)
+			db.session.add(new_exercise)
+			db.session.commit()
+			check_exercise = Exercise.query.filter_by(user_id = user_id,\
+												name = exercise_name).\
+												one_or_none()
 
-	new_entry = ExerciseEntry(user_id = user_id, 
-							  exercise_id = exercise_id,
-							  num_reps = num_reps,
-							  weight = weight)
-	
-	db.session.add(new_entry)
-	db.session.commit()
-	return "Exercise logged!", 200
+		new_entry = ExerciseEntry(user_id = user_id, 
+								  exercise_id = check_exercise.exercise_id,
+								  num_reps = num_reps,
+								  weight = weight)
+
+		db.session.add(new_entry)
+		db.session.commit()
+		return "Exercise logged!", 200
+	else:
+		return render_template("add_exercise.html")
 
 
 
