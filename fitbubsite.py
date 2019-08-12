@@ -2,7 +2,7 @@
 from flask import Flask, render_template, redirect, flash, session, request, jsonify
 import jinja2
 from model import User, Exercise, ExerciseEntry, db, connect_to_db
-
+import json
 
 app = Flask(__name__)
 
@@ -65,15 +65,20 @@ def add_exercise():
 	db.session.commit()
 	return "Exercise logged!", 200
 
-@app.route("/exercise_history")
-def exercise_history():
+@app.route("/exercise_history", methods=["GET", "POST"])
+def exercise_history_view():
+	"""if exercises have been logged, show them in a table"""
+	exercises = exercise_history()
+	return render_template("exercise_history.html", exercises=exercises)
+
+
+def exercise_history():	
 	"""display exercise log by date in table"""
 	user_id = 1
 	user_entries = db.session.query(ExerciseEntry).\
 					join(Exercise).\
 					filter_by(user_id = user_id).all()
 	exercise_dict = {}
-	print(user_entries)
 	for exercise in user_entries:
 		date = exercise.datetime.strftime("%b %d %Y")
 		if date in exercise_dict:
@@ -91,7 +96,7 @@ def exercise_history():
 			  'weight': exercise.weight,
 			  'reps': exercise.num_reps
 			}]
-	return jsonify(exercise_dict), 200
+	return exercise_dict
 
 if __name__ == "__main__":
 
