@@ -41,7 +41,7 @@ def add_exercise():
 	user_id = 2
 	exercise_name = request.form["exercise_name"]
 	weight = request.form["weight"]
-	num_reps = request.form["reps"]
+	num_reps = request.form["num_reps"]
 	
 	check_exercise = Exercise.query.filter_by(user_id = user_id,\
 											name = exercise_name).\
