@@ -42,7 +42,9 @@ def add_exercise():
 	exercise_name = request.form["exercise_name"]
 	weight = request.form["weight"]
 	num_reps = request.form["num_reps"]
-	
+	new_entry = None
+	new_exercise = None
+
 	check_exercise = Exercise.query.filter_by(user_id = user_id,\
 											name = exercise_name).\
 											one_or_none()
@@ -66,37 +68,37 @@ def add_exercise():
 	return "Exercise logged!", 200
 
 @app.route("/exercise_history", methods=["GET", "POST"])
-def exercise_history_view():
+
+def exercise_history():
 	"""if exercises have been logged, show them in a table"""
-	exercises = exercise_history()
-	return render_template("exercise_history.html", exercises=exercises)
+	user_id = 2
+	if user_id:
+		user_entries = db.session.query(ExerciseEntry).\
+						join(Exercise).\
+						filter_by(user_id = user_id).all()	
+		exercise_dict = {}
+		for exercise in user_entries:
+			date = exercise.datetime.strftime("%b %d %Y")
+			if date in exercise_dict:
+				exercise_on_date = exercise_dict[date]
+				exercise_on_date.append(
+					{'exercise': exercise.exercises.name,
+					 'weight': exercise.weight,
+					 'reps': exercise.num_reps
+
+					})
+				exercise_dict[date] = exercise_on_date
+			else:
+				exercise_dict[date] =\
+				[{'exercise': exercise.exercises.name,
+				  'weight': exercise.weight,
+				  'reps': exercise.num_reps
+				}]
+							
+	return render_template("exercise_history.html", exercises=exercise_dict)
 
 
-def exercise_history():	
-	"""display exercise log by date in table"""
-	user_id = 1
-	user_entries = db.session.query(ExerciseEntry).\
-					join(Exercise).\
-					filter_by(user_id = user_id).all()
-	exercise_dict = {}
-	for exercise in user_entries:
-		date = exercise.datetime.strftime("%b %d %Y")
-		if date in exercise_dict:
-			exercise_on_date = exercise_dict[date]
-			exercise_on_date.append(
-				{'exercise': exercise.exercises.name,
-				 'weight': exercise.weight,
-				 'reps': exercise.num_reps
 
-				})
-			exercise_dict[date] = exercise_on_date
-		else:
-			exercise_dict[date] =\
-			[{'exercise': exercise.exercises.name,
-			  'weight': exercise.weight,
-			  'reps': exercise.num_reps
-			}]
-	return exercise_dict
 
 if __name__ == "__main__":
 
