@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h2 class="exercise-history-heading">Exercises History! Keep on Rockin'!</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Deets</th>
+                </tr>
+            </thead>
+                <tbody>
+                    {% if exercises %}
+                        {% for exercise in exercises %}
+                            <tr>
+                                <td>{{ exercise }}</td>
+                                <td>{% for item in exercises[exercise] %}
+                                    <ul>
+                                        <li> <p>{{ item.exercise}}: {{item.weight}} Lbs {{item.reps}} Reps</p></li>
+                                    </ul>
+                                {% endfor %}
+                                </td>
+                            </tr>
+                        {% endfor%}
+                    {% endif%}
+                </tbody>
+        </table>
+
+
+
+{% endblock %}
