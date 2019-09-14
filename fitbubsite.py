@@ -93,8 +93,7 @@ def exercise_history():
 				[{'exercise': exercise.exercises.name,
 				  'weight': exercise.weight,
 				  'reps': exercise.num_reps
-				}]
-							
+				}]		
 	return render_template("exercise_history.html", exercises=exercise_dict)
 
 
