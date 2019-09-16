@@ -17,6 +17,52 @@ app.secret_key = 'this-should-be-something-unguessable'
 
 app.jinja_env.undefined = jinja2.StrictUndefined
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+	"""Return login form and allow user to login credentials"""
+	if request.form:
+		process_login()
+	else:
+		return render_template("login.html")
+
+
+def process_login():
+    """Log user into site.
+
+    Find the user's login credentials located in the 'request.form'
+    dictionary, look up the user, and store them in the session.
+    """
+
+    # The logic here should be something like:
+    #
+    # - get user-provided name and password from request.form
+    # - use customers.get_by_email() to retrieve corresponding Customer
+    #   object (if any)
+    # - if a Customer with that email was found, check the provided password
+    #   against the stored one
+    # - if they match, store the user's email in the session, flash a success
+    #   message and redirect the user to the "/melons" route
+    # - if they don't, flash a failure message and redirect back to "/login"
+    # - do the same if a Customer with that email doesn't exist
+    email = request.form['email']
+    password = request.form['password']
+    customer = User.query.filter_by(email = email).one_or_none()
+    print(customer)
+    if customer:
+        if email == customer.email:
+            if password == customer.password:
+                session['user'] = email
+            else: 
+                flash('incorrect email or password, try again buddy!')
+                return redirect("/login")
+    
+    else:
+        flash('incorrect email or password.')
+        return redirect("/login")
+    flash('Success, you are now free to log your EXERCISES!\n \
+    	   Keep calm and exercise on!')
+    return redirect("/add_exercise")
+
 @app.route("/", methods=["GET", "POST"])
 def index():
 	"""Return Home Page """
@@ -65,11 +111,10 @@ def add_exercise():
 
 	db.session.add(new_entry)
 	db.session.commit()
-	flash("Exercise Logged! Don't Stop Rockin'!")
+	flash("Exercise Logged! Don't Stop Rockin!")
 	return "Exercise logged!", 200
 
 @app.route("/exercise_history", methods=["GET", "POST"])
-
 def exercise_history():
 	"""if exercises have been logged, show them in a table"""
 	user_id = 2
