@@ -65,6 +65,7 @@ def add_exercise():
 
 	db.session.add(new_entry)
 	db.session.commit()
+	flash("Exercise Logged! Don't Stop Rockin'!")
 	return "Exercise logged!", 200
 
 @app.route("/exercise_history", methods=["GET", "POST"])
