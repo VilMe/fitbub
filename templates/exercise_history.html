@@ -15,8 +15,8 @@
                             <tr>
                                 <td>{{ exercise }}</td>
                                 <td>{% for item in exercises[exercise] %}
-                                    <ul>
-                                        <li> <p>{{ item.exercise}}: {{item.weight}} Lbs {{item.reps}} Reps</p></li>
+                                    <ul style= "list-style-type: none;">
+                                        <li> <strong>{{ item.exercise}}:</strong> {{item.reps}} reps <strong style="color:red;">@</strong> {{item.weight}} Lbs</li>
                                     </ul>
                                 {% endfor %}
                                 </td>
