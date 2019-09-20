@@ -17,58 +17,41 @@ app.secret_key = 'this-should-be-something-unguessable'
 
 app.jinja_env.undefined = jinja2.StrictUndefined
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-	"""Return login form and allow user to login credentials"""
-	if request.form:
-		email = request.form['email']
-        password = request.form['password']
-        user = User.query.filter_by(email = email).one_or_none()
-        if user:
-            if password == user.password:
-                session['user'] = email
-                flash('Success, you are now free to log your EXERCISES!\n \
-                       Keep calm and exercise on!')
-                return redirect("/add_exercise")
-            else:
-                flash('incorrect email or password.')
-                return redirect("/login")
-
-        else: 
-            flash('incorrect email or password, try again buddy!')
-            return redirect("/login")
-
-    else:
-		return render_template("login.html")
-
-    """Log user into site.
-
-    Find the user's login credentials located in the 'request.form'
-    dictionary, look up the user, and store them in the session.
-    """
-
-    # The logic here should be something like:
-    #
-    # - get user-provided name and password from request.form
-    # - use customers.get_by_email() to retrieve corresponding Customer
-    #   object (if any)
-    # - if a Customer with that email was found, check the provided password
-    #   against the stored one
-    # - if they match, store the user's email in the session, flash a success
-    #   message and redirect the user to the "/melons" route
-    # - if they don't, flash a failure message and redirect back to "/login"
-    # - do the same if a Customer with that email doesn't exist
-    
-
-
 @app.route("/", methods=["GET", "POST"])
 def index():
-	"""Return Home Page """
+	"""Show add_exercise view"""
 	if request.form:
 		add_exercise()
 		return redirect("/add_exercise")
 	else:
 		return render_template("add_exercise.html")
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+	"""Return login form and allow user to login using 
+	   username/password credentials, passwords not hashed yet!"""
+	if request.form:
+		email = request.form['email']
+		password = request.form['password']
+		user = User.query.filter_by(email = email).one_or_none()
+		if user:
+			if password == user.password:
+				session['user'] = user.user_id
+				flash('Success, you are now free to log your EXERCISES!\n \
+					   Keep calm and exercise on!')
+				return redirect("/add_exercise")
+			else:
+				flash('incorrect email or password.')
+				return redirect("/login")
+
+		else: 
+			flash('incorrect email or password, try again buddy!')
+			return redirect("/login")
+
+	else:
+		return render_template("login.html")
+
+
 
 @app.route("/add_exercise", methods=["GET", "POST"])
 def add_exercise_from():
