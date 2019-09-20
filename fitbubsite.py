@@ -19,7 +19,7 @@ app.jinja_env.undefined = jinja2.StrictUndefined
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-	"""Show add_exercise view"""
+	"""Show add_exercise view as landing page, may change this"""
 	if request.form:
 		add_exercise()
 		return redirect("/add_exercise")
@@ -51,6 +51,13 @@ def login():
 	else:
 		return render_template("login.html")
 
+@app.route("/logout")
+def logout():
+	"""Log user out of site
+	Find user in session, remove user from session using pop() function 
+	"""
+	session.pop('user')
+	return redirect("/login")
 
 
 @app.route("/add_exercise", methods=["GET", "POST"])
