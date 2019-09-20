@@ -61,12 +61,15 @@ def logout():
 
 
 @app.route("/add_exercise", methods=["GET", "POST"])
-def add_exercise_from():
+def add_exercise_form():
 	"""Return add exercise form"""
 	if request.form:
 		if session.get('user'):
 			add_exercise()
 			return redirect("/add_exercise")
+		else:
+			flash('Please Login Sir/Ma\'am')
+			return render_template("add_exercise.html")
 	else:
 		return render_template("add_exercise.html")
 
