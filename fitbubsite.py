@@ -52,6 +52,9 @@ def process_login():
         if email == customer.email:
             if password == customer.password:
                 session['user'] = email
+                flash('Success, you are now free to log your EXERCISES!\n \
+                       Keep calm and exercise on!')
+                return redirect("/add_exercise")
             else: 
                 flash('incorrect email or password, try again buddy!')
                 return redirect("/login")
@@ -59,9 +62,6 @@ def process_login():
     else:
         flash('incorrect email or password.')
         return redirect("/login")
-    flash('Success, you are now free to log your EXERCISES!\n \
-    	   Keep calm and exercise on!')
-    return redirect("/add_exercise")
 
 @app.route("/", methods=["GET", "POST"])
 def index():
