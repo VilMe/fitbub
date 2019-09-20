@@ -46,11 +46,11 @@ def process_login():
     # - do the same if a Customer with that email doesn't exist
     email = request.form['email']
     password = request.form['password']
-    customer = User.query.filter_by(email = email).one_or_none()
-    print(customer)
-    if customer:
-        if email == customer.email:
-            if password == customer.password:
+    user = User.query.filter_by(email = email).one_or_none()
+    print(user)
+    if user:
+        if email == user.email:
+            if password == user.password:
                 session['user'] = email
                 flash('Success, you are now free to log your EXERCISES!\n \
                        Keep calm and exercise on!')
