@@ -2,7 +2,7 @@
 from flask import Flask, render_template, redirect, flash, session, request, jsonify
 import jinja2
 from model import User, Exercise, ExerciseEntry, db, connect_to_db
-import json
+
 
 app = Flask(__name__)
 
