@@ -72,7 +72,7 @@ def add_exercise_from():
 def add_exercise():
 	"""addition of exercises to DB!, current user is hardcoded
 	will change to user in session once it actually functions"""
-	user_id = 2
+	user_id = session['user']
 	exercise_name = request.form["exercise_name"]
 	weight = request.form["weight"]
 	num_reps = request.form["num_reps"]
@@ -105,7 +105,7 @@ def add_exercise():
 @app.route("/exercise_history", methods=["GET", "POST"])
 def exercise_history():
 	"""if exercises have been logged, show them in a table"""
-	user_id = 2
+	user_id = session['user']
 	if user_id:
 		user_entries = db.session.query(ExerciseEntry).\
 						join(Exercise).\
