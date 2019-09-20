@@ -64,21 +64,22 @@ def logout():
 def add_exercise_from():
 	"""Return add exercise form"""
 	if request.form:
-		add_exercise()
-		return redirect("/add_exercise")
+		if session.get('user'):
+			add_exercise()
+			return redirect("/add_exercise")
 	else:
 		return render_template("add_exercise.html")
 
 def add_exercise():
 	"""addition of exercises to DB!, current user is hardcoded
 	will change to user in session once it actually functions"""
-	user_id = session['user']
+	user_id = session.get('user')
 	exercise_name = request.form["exercise_name"]
 	weight = request.form["weight"]
 	num_reps = request.form["num_reps"]
 	new_entry = None
 	new_exercise = None
-
+	
 	check_exercise = Exercise.query.filter_by(user_id = user_id,\
 											name = exercise_name).\
 											one_or_none()
@@ -101,6 +102,7 @@ def add_exercise():
 	db.session.commit()
 	flash("Exercise Logged! Don't Stop Rockin!")
 	return "Exercise logged!", 200
+	
 
 @app.route("/exercise_history", methods=["GET", "POST"])
 def exercise_history():
