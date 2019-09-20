@@ -21,12 +21,26 @@ app.jinja_env.undefined = jinja2.StrictUndefined
 def login():
 	"""Return login form and allow user to login credentials"""
 	if request.form:
-		process_login()
-	else:
+		email = request.form['email']
+        password = request.form['password']
+        user = User.query.filter_by(email = email).one_or_none()
+        if user:
+            if password == user.password:
+                session['user'] = email
+                flash('Success, you are now free to log your EXERCISES!\n \
+                       Keep calm and exercise on!')
+                return redirect("/add_exercise")
+            else:
+                flash('incorrect email or password.')
+                return redirect("/login")
+
+        else: 
+            flash('incorrect email or password, try again buddy!')
+            return redirect("/login")
+
+    else:
 		return render_template("login.html")
 
-
-def process_login():
     """Log user into site.
 
     Find the user's login credentials located in the 'request.form'
@@ -44,24 +58,8 @@ def process_login():
     #   message and redirect the user to the "/melons" route
     # - if they don't, flash a failure message and redirect back to "/login"
     # - do the same if a Customer with that email doesn't exist
-    email = request.form['email']
-    password = request.form['password']
-    user = User.query.filter_by(email = email).one_or_none()
-    print(user)
-    if user:
-        if email == user.email:
-            if password == user.password:
-                session['user'] = email
-                flash('Success, you are now free to log your EXERCISES!\n \
-                       Keep calm and exercise on!')
-                return redirect("/add_exercise")
-            else: 
-                flash('incorrect email or password, try again buddy!')
-                return redirect("/login")
     
-    else:
-        flash('incorrect email or password.')
-        return redirect("/login")
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
