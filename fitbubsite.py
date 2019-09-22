@@ -26,6 +26,10 @@ def index():
 	else:
 		return render_template("add_exercise.html")
 
+@app.route("/register", methods=["GET", "POST"])
+def registration():
+    pass
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
 	"""Return login form and allow user to login using 
@@ -68,8 +72,8 @@ def add_exercise_form():
 			add_exercise()
 			return redirect("/add_exercise")
 		else:
-			flash('Please Login Sir/Ma\'am')
-			return render_template("add_exercise.html")
+			flash('Please Login Sir or Ma\'am')
+			return redirect("/login")
 	else:
 		return render_template("add_exercise.html")
 
