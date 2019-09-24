@@ -28,7 +28,9 @@ def index():
 
 @app.route("/register", methods=["GET", "POST"])
 def registration():
-    pass
+    """Show registration form"""
+    
+    return render_template("registration.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
