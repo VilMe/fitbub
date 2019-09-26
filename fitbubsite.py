@@ -29,6 +29,16 @@ def index():
 @app.route("/register", methods=["GET", "POST"])
 def registration():
     """Show registration form"""
+    if request.form:
+        email = request.form['email']
+        password = request.form['password']
+        confirm_password = request.form['confirm-password']
+        does_user_exist = User.query.filter_by(email = email).\
+                          one_or_none()
+        if does_user_exist:
+            flash('Email already used, TODO need to handle\
+                   forgotten password')
+            return render_template("registration.html")
     
     return render_template("registration.html")
 
