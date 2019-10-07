@@ -43,7 +43,7 @@ def registration():
             new_user = User(email=email, password=password)
             db.session.add(new_user)
             db.session.commit()
-            flash('Registered! Let\'s get exercisin\'\n Please log in!')
+            flash('Registered! Let\'s get exercisin\'!!\n Please log in!')
             return redirect("/login")
         else:
             flash('Passwords do not match, please try again')
