@@ -39,9 +39,14 @@ def registration():
             flash('Email already used, TODO need to handle\
                    forgotten password')
             return render_template("registration.html") 
+        elif password == confirm_password:
+            new_user = User(email=email, password=password)
+            db.session.add(new_user)
+            flash('Registered! Let\'s get exercisin\'\n Please log in!')
+            return render_template("login.html")
         else:
-            new_user = User
-    
+            flash('Passwords do not match, please try again')
+            return render_template("registration.html") 
     return render_template("registration.html")
 
 @app.route("/login", methods=["GET", "POST"])
