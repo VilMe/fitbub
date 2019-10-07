@@ -42,8 +42,9 @@ def registration():
         elif password == confirm_password:
             new_user = User(email=email, password=password)
             db.session.add(new_user)
+            db.session.commit()
             flash('Registered! Let\'s get exercisin\'\n Please log in!')
-            return render_template("login.html")
+            return redirect("/login")
         else:
             flash('Passwords do not match, please try again')
             return render_template("registration.html") 
@@ -164,4 +165,4 @@ def exercise_history():
 if __name__ == "__main__":
 
 	connect_to_db(app)
-	app.run(debug=False, port=3000, host='0.0.0.0')
+	app.run(debug=True, port=3000, host='0.0.0.0')
