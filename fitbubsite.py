@@ -33,12 +33,14 @@ def registration():
         email = request.form['email']
         password = request.form['password']
         confirm_password = request.form['confirm-password']
-        does_user_exist = User.query.filter_by(email = email).\
+        user_exists = User.query.filter_by(email = email).\
                           one_or_none()
-        if does_user_exist:
+        if user_exists:
             flash('Email already used, TODO need to handle\
                    forgotten password')
-            return render_template("registration.html")
+            return render_template("registration.html") 
+        else:
+            new_user = User
     
     return render_template("registration.html")
 
@@ -157,4 +159,4 @@ def exercise_history():
 if __name__ == "__main__":
 
 	connect_to_db(app)
-	app.run(debug=True, port=3000, host='0.0.0.0')
+	app.run(debug=False, port=3000, host='0.0.0.0')
