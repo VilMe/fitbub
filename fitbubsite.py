@@ -28,27 +28,27 @@ def index():
 
 @app.route("/register", methods=["GET", "POST"])
 def registration():
-    """Show registration form"""
-    if request.form:
-        email = request.form['email']
-        password = request.form['password']
-        confirm_password = request.form['confirm-password']
-        user_exists = User.query.filter_by(email = email).\
-                          one_or_none()
-        if user_exists:
-            flash('Email already used, TODO need to handle\
-                   forgotten password')
-            return render_template("registration.html") 
-        elif password == confirm_password:
-            new_user = User(email=email, password=password)
-            db.session.add(new_user)
-            db.session.commit()
-            flash('Registered! Let\'s get exercisin\'!!\n Please log in!')
-            return redirect("/login")
-        else:
-            flash('Passwords do not match, please try again')
-            return render_template("registration.html") 
-    return render_template("registration.html")
+	"""Show registration form"""
+	if request.form:
+		email = request.form['email']
+		password = request.form['password']
+		confirm_password = request.form['confirm-password']
+		user_exists = User.query.filter_by(email = email).\
+						  one_or_none()
+		if user_exists:
+			flash('Email already used, TODO need to handle\
+				   forgotten password')
+			return render_template("registration.html") 
+		elif password == confirm_password:
+			new_user = User(email=email, password=password)
+			db.session.add(new_user)
+			db.session.commit()
+			flash('Registered! Let\'s get exercisin\'!!\n Please log in!')
+			return redirect("/login")
+		else:
+			flash('Passwords do not match, please try again')
+			return render_template("registration.html") 
+	return render_template("registration.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -134,7 +134,7 @@ def add_exercise():
 @app.route("/exercise_history", methods=["GET", "POST"])
 def exercise_history():
 	"""if exercises have been logged, show them in a table"""
-	user_id = session['user']
+	user_id = session.get('user')
 	if user_id:
 		user_entries = db.session.query(ExerciseEntry).\
 						join(Exercise).\
@@ -157,7 +157,11 @@ def exercise_history():
 				  'weight': exercise.weight,
 				  'reps': exercise.num_reps
 				}]		
-	return render_template("exercise_history.html", exercises=exercise_dict)
+		return render_template("exercise_history.html", exercises=exercise_dict)
+	else:
+		flash('Please login')
+		return redirect("/login")
+
 
 
 
