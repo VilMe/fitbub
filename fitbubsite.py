@@ -41,7 +41,8 @@ def registration():
 				   forgotten password')
 			return render_template("registration.html") 
 		elif password == confirm_password:
-			new_user = User(email=email, password=password)
+			new_user = User(email=email)
+			new_user.set_password(password)
 			db.session.add(new_user)
 			db.session.commit()
 			flash('Registered! Let\'s get exercisin\'!!\n Please log in!')
@@ -60,7 +61,7 @@ def login():
 		password = request.form['password']
 		user = User.query.filter_by(email = email).one_or_none()
 		if user:
-			if password == user.password:
+			if user.check_password(password):
 				session['user'] = user.user_id
 				flash('Success, you are now free to log your EXERCISES!\n \
 					   Keep calm and exercise on!')
