@@ -17,8 +17,11 @@ div.navbar {
 
 
 
-/* melon-detail-page */
+/* favicon */
 
+.muscles{
+    background-color: white;
+}
 .warning {
     color: red;
 }
@@ -27,7 +30,14 @@ div.navbar {
 /* login form */
 
 .form-signin {
-  max-width: 330px;
-  margin: 5em auto 0 auto;  /* TRBL */
+    max-width: 330px;
+    margin: 5em auto 0 auto;  /* TRBL */
+}
+
+/* add exercise from */
+
+.form-add-exercise {
+    max-width: 330px;
+    margin: 5em auto 0 auto;
 }
 
