@@ -20,10 +20,11 @@ app.jinja_env.undefined = jinja2.StrictUndefined
 @app.route("/", methods=["GET", "POST"])
 def index():
 	"""Show add_exercise view as landing page, may change this"""
-	if request.form:
+	if request.form and session.get('user'):
 		add_exercise()
 		return redirect("/add_exercise")
 	else:
+		flash('Please log in')
 		return render_template("add_exercise.html")
 
 @app.route("/register", methods=["GET", "POST"])
