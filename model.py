@@ -3,10 +3,11 @@
 from flask_sqlalchemy import SQLAlchemy 
 from datetime import datetime 
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
 db = SQLAlchemy()
 
-class User(db.Model):
+class User(UserMixin, db.Model):
 	"""User model. A user can have many exercise entries."""
 
 	__tablename__ = 'users'

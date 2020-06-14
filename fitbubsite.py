@@ -2,6 +2,8 @@
 from flask import Flask, render_template, redirect, flash, session, request, jsonify
 import jinja2
 from model import User, Exercise, ExerciseEntry, db, connect_to_db
+from flask_login import LoginManager, login_required
+
 
 
 app = Flask(__name__)
@@ -16,6 +18,11 @@ app.secret_key = 'this-should-be-something-unguessable'
 # error.
 
 app.jinja_env.undefined = jinja2.StrictUndefined
+
+login = LoginManager(app)
+# intialize flask_login extenion - goings to use it here :) yay
+login.login_view = '/login'
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
