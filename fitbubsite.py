@@ -178,4 +178,4 @@ def exercise_history():
 if __name__ == "__main__":
 
 	connect_to_db(app)
-	app.run(debug=False, port=3000, host='0.0.0.0')
+	app.run(debug=False	, port=3000, host='0.0.0.0')
