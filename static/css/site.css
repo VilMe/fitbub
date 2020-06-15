@@ -1,7 +1,7 @@
-/* Style for Ubermelon Shopping Site */
+/* Style for fitbub Site */
 
 
-/* Style our Ubermelon logo. */
+/* Style our fitbub logo. */
 
 div.navbar-header img {
     width: 30px;
@@ -38,6 +38,6 @@ div.navbar {
 
 .form-add-exercise {
     max-width: 330px;
-    margin: 5em auto 0 auto;
+    margin: 5em auto 0 auto;  /* TRBL */
 }
 
