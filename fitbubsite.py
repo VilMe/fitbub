@@ -17,7 +17,7 @@ app.secret_key = 'this-should-be-something-unguessable'
 # set an attribute of the Jinja environment that says to make this an
 # error.
 
-app.jinja_env.undefined = jinja2.StrictUndefined
+#app.jinja_env.undefined = jinja2.StrictUndefined
 
 login = LoginManager(app)
 # intialize flask_login extenion - goings to use it here :) yay
@@ -178,4 +178,4 @@ def exercise_history():
 if __name__ == "__main__":
 
 	connect_to_db(app)
-	app.run(debug=True, port=3000, host='0.0.0.0')
+	app.run(debug=False, port=3000, host='0.0.0.0')
